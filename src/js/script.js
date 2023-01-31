@@ -77,6 +77,11 @@
       defaultDeliveryFee: 20,
     },
     // CODE ADDED END
+    db: {
+      url: '//localhost:3131',
+      products: 'products',
+      orders: 'orders',
+    },
   };
   
   const templates = {
@@ -325,8 +330,8 @@
       thisWidget.setValue(settings.amountWidget.defaultValue);
       thisWidget.initActions();
 
-      console.log('AmountWidget:', thisWidget);
-      console.log('constructor arguments:', element);
+      //('AmountWidget:', thisWidget);
+      //console.log('constructor arguments:', element);
     }
 
     getElements(element) {
@@ -350,8 +355,8 @@
       /* validation */
       if(thisWidget.value !== newValue && !isNaN(newValue) && newValue >= min && newValue <= max) {
         
-        console.log('stara wartosć ', thisWidget.value);
-        console.log('nowa wartosć ', newValue);
+        //('stara wartosć ', thisWidget.value);
+        //console.log('nowa wartosć ', newValue);
     
         thisWidget.value = newValue;
       
@@ -366,7 +371,7 @@
     annouce() {
       const thisWidget = this;
 
-      console.log('annouce');
+      //('annouce');
 
       const event = new Event('update', {
         bubbles: true
@@ -403,7 +408,7 @@
       thisCart.getElements(element);
       thisCart.initActions();
 
-      console.log('new cart', thisCart);
+      //('new cart', thisCart);
     }
 
     getElements(element) {
@@ -444,7 +449,7 @@
     add(menuProduct) {
       const thisCart = this;
 
-      console.log('adding product', menuProduct);
+      //('adding product', menuProduct);
 
       const generatedHTML = templates.cartProduct(menuProduct);
 
@@ -453,7 +458,7 @@
       thisCart.dom.productList.appendChild(generatedDOM);
 
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
-      console.log('thisCart.products', thisCart.products);
+      //console.log('thisCart.products', thisCart.products);
       thisCart.update();
 
     }
@@ -478,9 +483,9 @@
         thisCart.totalNumber = 0;
       }
 
-      console.log('thisCart.totalNumber',thisCart.totalNumber);
-      console.log('thisCart.subtotalPrice', thisCart.subtotalPrice);
-      console.log('thisCart.totalPrice', thisCart.totalPrice);
+      //console.log('thisCart.totalNumber',thisCart.totalNumber);
+      //console.log('thisCart.subtotalPrice', thisCart.subtotalPrice);
+      //console.log('thisCart.totalPrice', thisCart.totalPrice);
 
       thisCart.dom.deliveryFee.innerHTML = deliveryFee;
       thisCart.dom.subtotalPrice.innerHTML = thisCart.subtotalPrice;
@@ -515,7 +520,7 @@
       thisCartProduct.price = menuProduct.price;
       thisCartProduct.params = menuProduct.params;
 
-      console.log('thisCartProduct:', thisCartProduct);
+      //console.log('thisCartProduct:', thisCartProduct);
 
       thisCartProduct.getElements(element);
       thisCartProduct.initAmountWidget();
@@ -553,7 +558,7 @@
     remove(){
       const thisCartProduct = this;
 
-      console.log('remove');
+      //console.log('remove');
 
       const event = new CustomEvent('remove', {
         bubbles: true,
@@ -587,14 +592,31 @@
       //console.log('thisApp.data:', thisApp.data);
 
       for(let productData in thisApp.data.products){
-        new Product(productData, thisApp.data.products[productData]);
+        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
     },
 
     initData: function() {
       const thisApp = this;
   
-      thisApp.data = dataSource;
+      thisApp.data = {};
+
+      const url = settings.db.url + '/' + settings.db.products;
+      fetch(url)
+        .then(function(rawResponse){
+          return rawResponse.json();
+        })
+        .then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse);
+
+          /* save parsedResponse as thisApp.data.products */
+          thisApp.data.products = parsedResponse;
+
+          /* execute initMenu methot */
+          thisApp.initMenu();
+        });
+
+      console.log('thisApp.data', JSON.stringify(thisApp.data));  
     },
 
     initCart: function() {
@@ -613,7 +635,7 @@
       console.log('templates:', templates);
 
       thisApp.initData();
-      thisApp.initMenu();
+      //thisApp.initMenu();
       thisApp.initCart();
     },
 
