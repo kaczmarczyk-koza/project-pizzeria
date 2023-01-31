@@ -250,6 +250,7 @@
       }
 
       // multiply price by amount
+      console.log('thisProduct.amountWidget.value', thisProduct.amountWidget.value);
       price *= thisProduct.amountWidget.value;
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
@@ -286,7 +287,6 @@
 
       const newValue = parseInt(value);
 
-
       const min = settings.amountWidget.defaultMin - 1;
       const max = settings.amountWidget.defaultMax + 1;
 
@@ -299,6 +299,8 @@
         thisWidget.value = newValue;
       
       }
+
+      thisWidget.annouce();
 
       thisWidget.input.value = thisWidget.value;
       
