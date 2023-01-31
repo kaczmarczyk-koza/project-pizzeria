@@ -437,7 +437,7 @@
 
       thisCart.dom.productList.addEventListener('remove', function(){
         thisCart.remove(event.detail.cartProduct);
-      })
+      });
 
     }
 
