@@ -1,8 +1,7 @@
-import { settings, select, templates, classNames } from './settings.js';
+import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
-
 
 const app = {
   initPages: function() {
@@ -18,8 +17,8 @@ const app = {
 
     for(let page of thisApp.pages) {
       if(page.id == idFromHash) {
-      pageMatchingHash = page.id;
-      break;
+        pageMatchingHash = page.id;
+        break;
       }
     }
 
@@ -58,12 +57,12 @@ const app = {
     } 
 
     /* add class "active" to matching links, remove from non-matching */
-     for(let link of thisApp.navLinks) {
-        link.classList.toggle(
-          classNames.nav.active, 
-          link.getAttribute('href') == '#' + pageId
-        );
-      } 
+    for(let link of thisApp.navLinks) {
+      link.classList.toggle(
+        classNames.nav.active, 
+        link.getAttribute('href') == '#' + pageId
+      );
+    } 
   },
 
   initMenu: function() {
