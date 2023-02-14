@@ -45,6 +45,12 @@ export const select = {
     allTable: '.floor-plan',
     tables: '.floor-plan .table',
     tableSelected: '.selected',
+    timePicker: '.time-picker',
+    bookingOpitions: '.booking-options',
+    starters: '[name= "starter"]',
+    phone: '.order-confirmation [name="phone"]',
+    address: '.order-confirmation [name="address"]',
+    submit: '.booking-form',
   },
   nav: {
     links: '.main-nav a',
