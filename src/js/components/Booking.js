@@ -193,12 +193,14 @@ class Booking{
       thisBooking.initTables(event);
     });
 
-    thisBooking.dom.formTimePicker.addEventListener('click', function(event) {
+    thisBooking.dom.formTimePicker.addEventListener('updated', function(event) {
       thisBooking.resetTables(event);
+      thisBooking.updateDOM();
     });
 
     thisBooking.dom.bookingOpitions.addEventListener('updated', function(event) {
       thisBooking.resetTables(event);
+      thisBooking.updateDOM();
     });
 
     thisBooking.dom.wrapper.addEventListener('updated', function() {
@@ -208,6 +210,7 @@ class Booking{
     thisBooking.dom.submit.addEventListener('submit', function(event) {
       event.preventDefault();
       thisBooking.sendBooking();
+      thisBooking.resetTables(event);
     });
 
   }
@@ -216,7 +219,6 @@ class Booking{
     const thisBooking = this;
 
     event.preventDefault();
-    //console.log(elementTable);
 
     for(const table of thisBooking.dom.tables) {
       table.classList.remove(classNames.booking.tableSelected);
@@ -246,7 +248,7 @@ class Booking{
       }
     }
   }
-
+  
   sendBooking() {
     const thisBooking = this;
 
@@ -256,8 +258,8 @@ class Booking{
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       table: parseInt(thisBooking.selected),
-      duration: parseInt(thisBooking.dom.hoursAmount.value),
-      ppl: parseInt(thisBooking.dom.peopleAmount.value),
+      duration: parseInt(thisBooking.dom.hoursAmount.querySelector(select.widgets.amount.input).value),
+      ppl: parseInt(thisBooking.dom.peopleAmount.querySelector(select.widgets.amount.input).value),
       starters: [],
       phone: thisBooking.dom.phone.value,
       address: thisBooking.dom.address.value,
@@ -278,6 +280,7 @@ class Booking{
       .then(function(parsedResponse){
         console.log('parsedResponse', parsedResponse);
         thisBooking.makeBooked(playload.date, playload.hour, playload.duration, playload.table);
+        thisBooking.updateDOM();
       });
   }
 }  

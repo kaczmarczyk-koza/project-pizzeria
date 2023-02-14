@@ -40,8 +40,8 @@ export const select = {
     },
   },
   booking: {
-    peopleAmount: '.people-amount',
-    hoursAmount: '.hours-amount',
+    peopleAmount: '.widget-amount.people-amount',
+    hoursAmount: '.widget-amount.hours-amount',
     allTable: '.floor-plan',
     tables: '.floor-plan .table',
     tableSelected: '.selected',
